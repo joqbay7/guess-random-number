@@ -117,11 +117,11 @@ h1 {
 h1::before {
     content: '';
     position: absolute;
-    top: -10px;
+    top: -60px;
     left: 50%;
     transform: translateX(-50%);
-    width: 40px;
-    height: 40px;
+    width: 90px;
+    height: 90px;
     background-image: url('./images/robot.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -207,7 +207,10 @@ button[type="submit"]:active {
     color: white;
     box-shadow: var(--shadow-md);
     min-width: 150px;
-    display: none; /* Inicialmente oculto */
+    display: none; /* Inicialmente oculto, será alterado para flex pelo JavaScript */
+    align-items: center; /* Centralizar verticalmente */
+    justify-content: center; /* Centralizar horizontalmente */
+    text-align: center; /* Garantir centralização do texto */
 }
 
 #resetButton:hover {
@@ -308,8 +311,9 @@ button:active::before {
     }
     
     h1::before {
-        width: 30px;
-        height: 30px;
+        width: 60px;
+        height: 60px;
+        top: -35px;
     }
     
     #guessInput {
@@ -321,6 +325,7 @@ button:active::before {
         padding: 0.875rem 1.5rem;
         font-size: 0.9rem;
         min-width: 150px;
+        
     }
     
     #resetButton {
