@@ -104,6 +104,9 @@ function handleCorrectGuess() {
     displayResult(message, 'success');
     guessInput.disabled = true;
     
+    // AI celebration effect / Efeito de celebração da IA
+    triggerAICelebration();
+    
     console.log(messageTranslation);
 }
 
@@ -117,6 +120,9 @@ function handleGameOver() {
     
     displayResult(message, 'error');
     guessInput.disabled = true;
+    
+    // AI disappointment effect / Efeito de decepção da IA
+    triggerAIDisappointment();
     
     console.log(messageTranslation);
 }
@@ -150,6 +156,9 @@ function handleIncorrectGuess(userGuess, difference, attemptsLeft) {
     message = `${hint} ${proximityHint} (${attemptsLeft} attempts left)`;
     
     displayResult(message, 'hint');
+    
+    // AI thinking effect / Efeito de pensamento da IA
+    triggerAIThinking();
 }
 
 /**
@@ -250,6 +259,85 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * Additional utility functions / Funções utilitárias adicionais
  */
+
+// AI interaction effects / Efeitos de interação da IA
+/**
+ * Trigger AI celebration animation / Ativar animação de celebração da IA
+ */
+function triggerAICelebration() {
+    const aiElement = document.querySelector('body::after');
+    document.body.style.setProperty('--ai-celebration', 'aiCelebration 1s ease-out');
+    
+    // Add temporary celebration styles / Adicionar estilos temporários de celebração
+    const celebrationStyle = document.createElement('style');
+    celebrationStyle.textContent = `
+        @keyframes aiCelebration {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1) rotateZ(2deg); }
+            50% { transform: scale(1.15) rotateZ(-2deg); }
+            75% { transform: scale(1.1) rotateZ(1deg); }
+            100% { transform: scale(1); }
+        }
+        body::after {
+            animation: aiCelebration 1s ease-out, aiWatching 8s ease-in-out infinite 1s !important;
+            filter: drop-shadow(-15px 0 35px rgba(16, 185, 129, 0.7)) !important;
+        }
+    `;
+    document.head.appendChild(celebrationStyle);
+    
+    // Remove celebration after animation / Remover celebração após animação
+    setTimeout(() => {
+        document.head.removeChild(celebrationStyle);
+    }, 2000);
+}
+
+/**
+ * Trigger AI disappointment animation / Ativar animação de decepção da IA
+ */
+function triggerAIDisappointment() {
+    const disappointmentStyle = document.createElement('style');
+    disappointmentStyle.textContent = `
+        @keyframes aiDisappointment {
+            0% { transform: scale(1); }
+            25% { transform: scale(0.95); }
+            50% { transform: scale(0.9); }
+            75% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        body::after {
+            animation: aiDisappointment 1.5s ease-out, aiWatching 8s ease-in-out infinite 1.5s !important;
+            filter: drop-shadow(-15px 0 35px rgba(239, 68, 68, 0.7)) !important;
+            opacity: 0.6 !important;
+        }
+    `;
+    document.head.appendChild(disappointmentStyle);
+    
+    setTimeout(() => {
+        document.head.removeChild(disappointmentStyle);
+    }, 3000);
+}
+
+/**
+ * Trigger AI thinking animation / Ativar animação de pensamento da IA
+ */
+function triggerAIThinking() {
+    const thinkingStyle = document.createElement('style');
+    thinkingStyle.textContent = `
+        @keyframes aiThinking {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        body::after {
+            animation: aiThinking 0.8s ease-in-out 3, aiWatching 8s ease-in-out infinite 2.4s !important;
+            filter: drop-shadow(-15px 0 30px rgba(99, 102, 241, 0.5)) !important;
+        }
+    `;
+    document.head.appendChild(thinkingStyle);
+    
+    setTimeout(() => {
+        document.head.removeChild(thinkingStyle);
+    }, 3000);
+}
 
 // Add keyboard shortcuts / Adicionar atalhos do teclado
 document.addEventListener('keydown', function(event) {

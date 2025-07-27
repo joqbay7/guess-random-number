@@ -33,7 +33,26 @@ body {
     overflow-x: hidden;
 }
 
-/* Background decorativo com as imagens */
+/* IA Character - Personagem AI gigante ocupando toda altura da tela */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    right: -150px;
+    width: 450px;
+    height: 100vh;
+    background-image: url('./images/ia.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    opacity: 0.9;
+    z-index: -1;
+    animation: aiWatching 8s ease-in-out infinite;
+    filter: drop-shadow(-15px 0 25px rgba(0, 0, 0, 0.4));
+    transition: all 0.3s ease;
+}
+
+/* Efeito de "olhos brilhantes" da IA */
 body::before {
     content: '';
     position: fixed;
@@ -48,23 +67,71 @@ body::before {
     background-position: center, top right;
     background-repeat: no-repeat, repeat;
     opacity: 0.1;
-    z-index: -2;
+    z-index: -3;
 }
 
-/* Elementos decorativos flutuantes */
-body::after {
+/* Criar elemento para olhos brilhantes */
+.ai-eyes {
+    position: fixed;
+    top: 35%;
+    right: -80px;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #00f5ff 0%, #0080ff 50%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.9;
+    z-index: 0;
+    animation: aiEyesGlow 3s ease-in-out infinite;
+    box-shadow: 
+        20px 12px 0 0 radial-gradient(circle, #00f5ff 0%, #0080ff 50%, transparent 70%),
+        0 0 25px #00f5ff,
+        20px 12px 25px #00f5ff;
+}
+
+@keyframes aiEyesGlow {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Efeito de "observação" da IA */
+@keyframes aiWatching {
+    0%, 100% { 
+        transform: scale(1) rotateY(0deg);
+        right: -150px;
+    }
+    25% { 
+        transform: scale(1.02) rotateY(-1deg);
+        right: -145px;
+    }
+    50% { 
+        transform: scale(0.98) rotateY(1deg);
+        right: -155px;
+    }
+    75% { 
+        transform: scale(1.01) rotateY(-0.5deg);
+        right: -148px;
+    }
+}
+
+/* Elemento decorativo flutuante adicional (código) */
+.floating-code {
     content: '';
     position: fixed;
     top: 10%;
-    right: 5%;
-    width: 80px;
-    height: 80px;
+    left: 5%;
+    width: 60px;
+    height: 60px;
     background-image: url('./images/code.png');
     background-size: contain;
     background-repeat: no-repeat;
     opacity: 0.3;
-    animation: float 6s ease-in-out infinite;
+    animation: floatLeft 6s ease-in-out infinite;
     z-index: -1;
+}
+
+@keyframes floatLeft {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(-3deg); }
 }
 
 @keyframes float {
@@ -83,6 +150,24 @@ body::after {
     justify-content: center;
     align-items: center;
     position: relative;
+}
+
+/* Efeito de interação com a IA */
+.container:hover ~ body::after {
+    transform: scale(1.05);
+    filter: drop-shadow(-15px 0 30px rgba(99, 102, 241, 0.5));
+    right: -140px;
+}
+
+/* Efeito especial quando input está em foco */
+#guessInput:focus ~ .ai-attention,
+#guessInput:focus {
+    animation: aiAttention 2s ease-in-out;
+}
+
+@keyframes aiAttention {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
 }
 
 /* Card principal do jogo */
@@ -295,6 +380,19 @@ button:active::before {
 }
 
 /* Responsividade */
+@media (max-width: 1200px) {
+    /* IA um pouco menor em telas médias */
+    body::after {
+        width: 400px;
+        right: -120px;
+    }
+    
+    .ai-eyes {
+        right: -70px;
+        top: 32%;
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
@@ -332,11 +430,28 @@ button:active::before {
         min-width: 130px;
     }
     
+    /* IA menor para tablet */
     body::after {
-        width: 60px;
-        height: 60px;
-        top: 5%;
-        right: 2%;
+        width: 300px;
+        right: -100px;
+    }
+    
+    .ai-eyes {
+        top: 30%;
+        right: -50px;
+        width: 6px;
+        height: 6px;
+        box-shadow: 
+            15px 10px 0 0 radial-gradient(circle, #00f5ff 0%, #0080ff 50%, transparent 70%),
+            0 0 20px #00f5ff,
+            15px 10px 20px #00f5ff;
+    }
+    
+    .floating-code {
+        width: 50px;
+        height: 50px;
+        top: 8%;
+        left: 3%;
     }
 }
 
@@ -379,7 +494,16 @@ button:active::before {
         min-width: 110px;
     }
     
+    /* IA desaparece em mobile para melhor performance e usabilidade */
     body::after {
+        display: none;
+    }
+    
+    .ai-eyes {
+        display: none;
+    }
+    
+    .floating-code {
         display: none;
     }
 }
